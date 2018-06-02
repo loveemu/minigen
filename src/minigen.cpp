@@ -12,9 +12,48 @@
 #define strcasecmp _stricmp
 #endif
 
+void usage(const char *cmd) {
+  printf("MINIGEN: Small utility for minixsf creation assistance\n");
+  printf("======================================================\n");
+  printf("\n");
+  printf("Minigen is a small binary file creation utility\n");
+  printf("for numbered custom minipsf blocks.\n");
+  printf("\n");
+  printf("Usage\n");
+  printf("-----\n");
+  printf("\n");
+  printf("Syntax: `%s [out basename] [file count] [hex string]`\n", cmd);
+  printf("\n");
+  printf("Minigen will produce the number of files that has been\n");
+  printf("specified by file count. The file content is determined by hex string.\n");
+  printf("In the string, you can embed a single special symbol NN,\n");
+  printf("which will be expanded to little-endian integer.\n");
+  printf("\n");
+  printf("Example of output:\n");
+  printf("\n");
+  printf("```\n");
+  printf("C:\\> minigen gametitle 4 NNNNNNNNa0380408\n");
+  printf("Created gametitle-0000.bin => 00000000a0380408\n");
+  printf("Created gametitle-0001.bin => 01000000a0380408\n");
+  printf("Created gametitle-0002.bin => 02000000a0380408\n");
+  printf("Created gametitle-0003.bin => 03000000a0380408\n");
+  printf("```\n");
+  printf("\n");
+  printf("To convert them to minixsf, you will need a proper converter,\n");
+  printf("such as rom2snsf or rom2gsf (embedded in saptapper).\n");
+  printf("\n");
+  printf("```\n");
+  printf("C:\\> for %%a in (*.bin) do saptapper --rom2gsf --lib gametitle.snsflib --load 0x80b1248 --psfby laala \"%%a\"\n");
+  printf("```\n");
+  printf("\n");
+}
+
 int main(int argc, char * argv[]) {
   if (argc != 4) {
-    printf("Usage: %s <out basename> <file count> <hex string>\n", argv[0]);
+    printf("Usage: %s [out basename] [file count] [hex string]\n", argv[0]);
+    return EXIT_FAILURE;
+  } else if (strcmp(argv[1], "--help") == 0) {
+    usage(argv[0]);
     return EXIT_FAILURE;
   }
 
