@@ -49,11 +49,18 @@ void usage(const char *cmd) {
 }
 
 int main(int argc, char * argv[]) {
-  if (argc != 4) {
+  if (argc < 2) {
     printf("Usage: %s [out basename] [file count] [hex string]\n", argv[0]);
+    printf("\n");
+    printf("Run with --help for long description.\n");
     return EXIT_FAILURE;
-  } else if (strcmp(argv[1], "--help") == 0) {
+  }
+  if (strcmp(argv[1], "--help") == 0) {
     usage(argv[0]);
+    return EXIT_FAILURE;
+  }
+  if (argc != 4) {
+    fprintf(stderr, "Error: Too few or more arguments.\n");
     return EXIT_FAILURE;
   }
 
