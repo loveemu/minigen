@@ -82,11 +82,11 @@ int main(int argc, char * argv[]) {
     return EXIT_FAILURE;
   }
 
-  int seqnum_offset = -1;
-  int seqnum_size = 0;
+  off_t seqnum_offset = -1;
+  size_t seqnum_size = 0;
   bool seqnum_scan = false;
   std::vector<uint8_t> hex(hexstring.length() / 2);
-  for (size_t offset = 0; offset < hex.size(); offset++) {
+  for (off_t offset = 0; offset < (off_t)hex.size(); offset++) {
     std::string bytestr = hexstring.substr(offset * 2, 2);
 
     if (strcasecmp(bytestr.c_str(), "NN") == 0) {
@@ -118,7 +118,7 @@ int main(int argc, char * argv[]) {
   }
 
   for (int file_no = 0; file_no < out_filecount; file_no++) {
-    for (int offset = 0; offset < seqnum_size; offset++) {
+    for (off_t offset = 0; offset < (off_t)seqnum_size; offset++) {
       hex[seqnum_offset + offset] = (file_no >> (8 * offset)) & 0xff;
     }
 
