@@ -33,8 +33,8 @@ build_script:
   - msbuild build\minigen.sln /t:build /p:Configuration="%config%" /m /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
-  - ps: $env:gitrev = git describe --tags
-  - ps: $env:my_version = "$env:gitrev"
+  - ps: $env:git_hash = $env:appveyor_repo_commit.Substring(0, 8)
+  - ps: $env:my_version = "$env:appveyor_build_version-$env:git_hash"
   - set package_name=minigen-%my_version%-%arch%
   - copy build\%config%\minigen.exe .
   - 7z a %package_name%.zip minigen.exe README.md LICENSE
