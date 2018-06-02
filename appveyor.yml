@@ -37,7 +37,7 @@ after_build:
   - ps: $env:my_version = "$env:appveyor_build_version-$env:git_hash"
   - set package_name=minigen-%my_version%-%arch%
   - copy build\%config%\minigen.exe .
-  - 7z a %package_name%.zip minigen.exe README.md LICENSE
+  - 7z a %package_name%.zip minigen.exe README.md LICENSE.txt
 
 artifacts:
   - path: $(package_name).zip
